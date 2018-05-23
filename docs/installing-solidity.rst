@@ -66,9 +66,17 @@ repository contains potentially unstable changes in the develop branch.
 
     docker run ethereum/solc:stable solc --version
 
-Currently, the docker image only contains the compiler executable,
-so you have to do some additional work to link in the source and
-output directories.
+To run different Solidity versions from the current working directory through Docker images you can do the following
+
+.. code:: bash
+
+   # Compile using 0.4.19 and show errors
+   docker run -v `pwd`:`pwd` -w `pwd` ethereum/solc:0.4.19 contracts/MyToken.sol
+
+   # Compile using 0.4.20 and show errors
+   docker run -v `pwd`:`pwd` -w `pwd` ethereum/solc:0.4.20 contracts/MyToken.sol
+
+The above command automatically downloads the Ethereum official Solidity image. It mounts the current working directory inside Docker and then executes `solc` command to compile whatever files you pass from the current working directory. The resulting Docker images are cached, making this operation as fast running solc natively.
 
 Binary Packages
 ===============
